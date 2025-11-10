@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.5.0
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -64,9 +65,12 @@ flutter:
           weight: 600
     - family: Montserrat
       fonts:
-        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Medium.ttf
         - asset: assets/fonts/Montserrat-SemiBold.ttf
           weight: 600
+
+  assets:
+    - assets/vectors/
 
 
   uses-material-design: true
