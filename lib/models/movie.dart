@@ -24,11 +24,13 @@ class Movie {
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
+    final posterPath = json['poster_path'];
+    final backdropPath = json['backdrop_path'];
     return Movie(
       id: json['id'],
       title: json['title'],
-      posterPath: json['poster_path'],
-      backdropPath: json['backdrop_path'],
+      posterPath: 'https://image.tmdb.org/t/p/original${posterPath ?? ""}',
+      backdropPath: 'https://image.tmdb.org/t/p/original${backdropPath ?? ""}',
       voteAverage: json['vote_average'],
       overview: json['overview'],
       releaseDate: json['release_date'],

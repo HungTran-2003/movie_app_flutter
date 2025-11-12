@@ -16,17 +16,13 @@ class HomePage extends StatefulWidget{
   State<HomePage> createState() => _StateScreen1();
 }
 
-class _StateScreen1 extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _StateScreen1 extends State<HomePage> {
 
   final List<Movie> _movies = [];
   String _error = "";
 
   bool _isLoading = false;
   final ScrollController _scrollController = ScrollController();
-
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -62,7 +58,6 @@ class _StateScreen1 extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: AppBarWidget(title: "Movies"),
       body: _buildBodyPages()
@@ -122,7 +117,6 @@ class _StateScreen1 extends State<HomePage> with AutomaticKeepAliveClientMixin {
     _movies.clear();
     MovieService.instance.refreshData();
     loadMovie();
-
   }
 
 }

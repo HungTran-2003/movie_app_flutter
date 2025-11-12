@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/service/movie_service.dart';
 import 'package:movie_app/ui/pages/home/widgets/icon_label.dart';
 import 'package:movie_app/ui/widgets/app_bar/app_bar_widget.dart';
+import 'package:movie_app/ui/widgets/images/app_cache_images.dart';
 import 'package:movie_app/ui/widgets/loading/app_loading_indicator.dart';
 
 class MovieDetailPage extends StatefulWidget {
@@ -22,7 +22,6 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _StateScreen1 extends State<MovieDetailPage> {
-  static const baseURL = "https://image.tmdb.org/t/p/original";
   bool _isLoading = true;
   Movie? movie;
 
@@ -32,17 +31,18 @@ class _StateScreen1 extends State<MovieDetailPage> {
     loadDetailMovie();
   }
 
-  void loadDetailMovie() async{
-    try{
-      final fetchMovie = await MovieService.instance.fetchDetailMovie(widget.movieId);
+  void loadDetailMovie() async {
+    try {
+      final fetchMovie = await MovieService.instance.fetchDetailMovie(
+        widget.movieId,
+      );
       setState(() {
         movie = fetchMovie;
-      _isLoading = false;
+        _isLoading = false;
       });
-    } catch(e) {
+    } catch (e) {
       log(e.toString());
     }
-
   }
 
   @override
@@ -57,8 +57,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
         },
         actions: [
           IconButton(
-            onPressed: () {
-            },
+            onPressed: () {},
             icon: Icon(Icons.bookmark, size: 24, color: Colors.white),
           ),
         ],
@@ -68,7 +67,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
   }
 
   Widget _buildBodyPages(Movie? movie, double maxWidth) {
-    switch(_isLoading){
+    switch (_isLoading) {
       case false:
         final lines = getNumberOfLines(
           text: movie?.title ?? "N/A",
@@ -79,7 +78,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MovieImages(baseURL: baseURL, movie: movie!),
+              MovieImages( movie: movie!),
               Container(
                 padding: const EdgeInsets.only(left: 134, top: 12, right: 16),
                 child: Text(
@@ -125,9 +124,8 @@ class _StateScreen1 extends State<MovieDetailPage> {
 }
 
 class MovieImages extends StatelessWidget {
-  const MovieImages({super.key, required this.baseURL, required this.movie});
+  const MovieImages({super.key, required this.movie});
 
-  final String baseURL;
   final Movie movie;
 
   @override
@@ -135,32 +133,20 @@ class MovieImages extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(AppDimens.imageCornerRadius),
-            bottomRight: Radius.circular(AppDimens.imageCornerRadius),
-          ),
-          child: Image.network(
-            "$baseURL${movie.backdropPath}",
-            width: double.infinity,
-            errorBuilder: (context, error, stackTrace) =>
-                const Icon(Icons.error),
-            fit: BoxFit.fitWidth,
-          ),
+        AppCacheImage(
+          url: movie.backdropPath ?? "",
+          width: MediaQuery.of(context).size.width,
+          borderRadius: AppDimens.imageCornerRadius,
+          fit: BoxFit.fitWidth,
         ),
         Positioned(
           left: 24,
           bottom: -60,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppDimens.imageCornerRadius),
-            child: Image.network(
-              "$baseURL${movie.posterPath}",
-              width: 100,
-              height: 120,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
-              fit: BoxFit.fill,
-            ),
+          child: AppCacheImage(
+            url: movie.posterPath ?? "",
+            width: 100,
+            height: 120,
+            borderRadius: AppDimens.imageCornerRadius,
           ),
         ),
         Positioned(
@@ -215,19 +201,18 @@ class MovieDetailsSection extends StatelessWidget {
                 label: movie.releaseDate?.substring(0, 4) ?? "N/A",
                 color: AppColors.textGray,
               ),
-              VerticalDivider(thickness: 1, color: AppColors.textGray,),
+              VerticalDivider(thickness: 1, color: AppColors.textGray),
               IconLabel(
                 assetIcon: AppSVGs.icClock,
                 label: "${movie.duration ?? "N/A"} minutes",
                 color: AppColors.textGray,
               ),
-              VerticalDivider(thickness: 1, color: AppColors.textGray,),
+              VerticalDivider(thickness: 1, color: AppColors.textGray),
               IconLabel(
                 assetIcon: AppSVGs.icTicket,
                 label: movie.genres?.first.name ?? "N/A",
                 color: AppColors.textGray,
               ),
-
             ],
           ),
         ),

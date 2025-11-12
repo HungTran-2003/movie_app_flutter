@@ -5,6 +5,7 @@ import 'package:movie_app/ui/pages/home/home_page.dart';
 import 'package:movie_app/ui/pages/detail/movie_detail_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
