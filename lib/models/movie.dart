@@ -1,3 +1,5 @@
+import 'package:movie_app/models/Genres.dart';
+
 class Movie {
   int? id;
   String? title;
@@ -7,7 +9,7 @@ class Movie {
   String? overview;
   String? releaseDate;
   int? duration;
-  List<int>? genres;
+  List<Genres>? genres;
 
   Movie({
     this.id,
@@ -30,7 +32,9 @@ class Movie {
       voteAverage: json['vote_average'],
       overview: json['overview'],
       releaseDate: json['release_date'],
-      genres: json['genres'],
+      genres: (json['genres'] as List<dynamic>?)
+          ?.map((e) => Genres.fromJson(e as Map<String, dynamic>))
+          .toList(),
       duration: json['runtime']
     );
   }

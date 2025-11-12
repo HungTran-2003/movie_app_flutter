@@ -8,7 +8,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onPressed;
 
   const AppBarWidget({
-    Key? key,
+    super.key,
     required this.title,
     this.actions,
     this.onPressed,

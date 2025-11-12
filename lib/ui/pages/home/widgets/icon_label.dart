@@ -18,26 +18,31 @@ class IconLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
       spacing: 4,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(assetIcon,
+        SvgPicture.asset(
+          assetIcon,
           width: 16,
           height: 16,
-          colorFilter: ColorFilter.mode(color, BlendMode.srcIn) ,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
         ),
-        ?_buildLabelWidget()
+        ?_buildLabelWidget(),
       ],
     );
   }
 
-  Text? _buildLabelWidget() {
-    if (color == AppColors.textOrange) return Text(label, style: AppTextStyle.orangeMontS12SemiBold,);
-    if (color == AppColors.textGray) return Text(label, style: AppTextStyle.grayMontS12Medium,);
-    if (color == AppColors.textWhite) return Text(label, style: AppTextStyle.whitePoppinsS12Regular,);
+  Widget? _buildLabelWidget() {
+    if (color == AppColors.textOrange) {
+      return Text(label, style: AppTextStyle.orangeMontS12SemiBold, overflow: TextOverflow.ellipsis);
+    }
+    if (color == AppColors.textGray) {
+      return Text(label, style: AppTextStyle.grayMontS12Medium, overflow: TextOverflow.ellipsis);
+    }
+    if (color == AppColors.textWhite) {
+      return Text(label, style: AppTextStyle.whitePoppinsS12Regular, overflow: TextOverflow.ellipsis);
+    }
     return null;
   }
 }
-
-
