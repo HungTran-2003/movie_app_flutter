@@ -4,7 +4,6 @@ import 'package:movie_app/common/app_text_styles.dart';
 import 'package:movie_app/configs/app_configs.dart';
 import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/models/response/error_response.dart';
-import 'package:movie_app/models/response/movies_response.dart';
 import 'package:movie_app/service/movie_service.dart';
 import 'package:movie_app/ui/pages/home/widgets/movie_widget.dart';
 import 'package:movie_app/ui/widgets/app_bar/app_bar_widget.dart';
