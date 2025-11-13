@@ -32,30 +32,29 @@ class _StateScreen1 extends State<HomePage> {
   }
 
   void loadMovie() async {
-    setState(() {
-      _isLoading = true;
-    });
-    final response = await MovieService.instance.fetchPopularMovies();
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
 
-    if (response is MoviesResponse) {
+    try {
+      final response = await MovieService.instance.fetchPopularMovies();
       setState(() {
         _movies.addAll(response.results);
         _isLoading = false;
       });
-    } else if (response is ErrorResponse) {
+    } catch (e) {
+      if (!mounted) return;
       setState(() {
-        _error = response.statusMessage;
         _isLoading = false;
       });
       if (e is ErrorResponse) {
         AppDialogs(context: context).showSimpleDialog(
-          title: "Error: ${e.statusCode}",
-          content: e.statusMessage,
-        );
+            title: "Error: ${e.statusCode}", content: e.statusMessage);
       } else {
-        AppDialogs(
-          context: context,
-        ).showSimpleDialog(title: "Error System", content: e.toString());
+        AppDialogs(context: context).showSimpleDialog(
+            title: "Error System", content: e.toString());
       }
     }
   }
