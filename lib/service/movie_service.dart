@@ -19,22 +19,18 @@ class MovieService {
 
   static MovieService get instance => _instance;
 
-  Future<Object> fetchPopularMovies() async {
+  Future<MoviesResponse> fetchPopularMovies() async {
     final url = Uri.parse(
       '$baseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$_page',
     );
-    try {
-      final response = await http.get(url);
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      log(jsonData.toString());
-      if (response.statusCode == 200) {
-        _page += 1;
-        return MoviesResponse.fromJson(jsonData);
-      } else {
-        return ErrorResponse.fromJson(jsonData);
-      }
-    } catch (e) {
-      return 'Lỗi kết nối: $e';
+    final response = await http.get(url);
+    final Map<String, dynamic> jsonData = jsonDecode(response.body);
+    log(jsonData.toString());
+    if (response.statusCode == 200) {
+      _page += 1;
+      return MoviesResponse.fromJson(jsonData);
+    } else {
+      throw ErrorResponse.fromJson(jsonData);
     }
   }
 
