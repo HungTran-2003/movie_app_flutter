@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/common/app_colors.dart';
 import 'package:movie_app/common/app_dimens.dart';
 import 'package:movie_app/common/app_svgs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
-import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/ui/pages/home/widgets/icon_label.dart';
 import 'package:movie_app/ui/widgets/images/app_cache_images.dart';
 
 class MovieWidget extends StatelessWidget {
-  final Movie movie;
+  final MovieEntity movie;
   final VoidCallback? onPressed;
 
   const MovieWidget({super.key, required this.movie, this.onPressed});

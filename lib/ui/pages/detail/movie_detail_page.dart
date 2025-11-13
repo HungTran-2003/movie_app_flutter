@@ -5,7 +5,7 @@ import 'package:movie_app/common/app_colors.dart';
 import 'package:movie_app/common/app_dimens.dart';
 import 'package:movie_app/common/app_svgs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
-import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/service/movie_service.dart';
 import 'package:movie_app/ui/pages/home/widgets/icon_label.dart';
 import 'package:movie_app/ui/widgets/app_bar/app_bar_widget.dart';
@@ -23,7 +23,7 @@ class MovieDetailPage extends StatefulWidget {
 
 class _StateScreen1 extends State<MovieDetailPage> {
   bool _isLoading = true;
-  Movie? movie;
+  MovieEntity? movie;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
     );
   }
 
-  Widget _buildBodyPages(Movie? movie, double maxWidth) {
+  Widget _buildBodyPages(MovieEntity? movie, double maxWidth) {
     switch (_isLoading) {
       case false:
         final lines = getNumberOfLines(
@@ -78,7 +78,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MovieImages( movie: movie!),
+              MovieImages(movie: movie!),
               Container(
                 padding: const EdgeInsets.only(left: 134, top: 12, right: 16),
                 child: Text(
@@ -126,7 +126,7 @@ class _StateScreen1 extends State<MovieDetailPage> {
 class MovieImages extends StatelessWidget {
   const MovieImages({super.key, required this.movie});
 
-  final Movie movie;
+  final MovieEntity movie;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +182,7 @@ class MovieDetailsSection extends StatelessWidget {
     required this.lines,
   });
 
-  final Movie movie;
+  final MovieEntity movie;
   final int lines;
 
   @override

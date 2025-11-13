@@ -17,14 +17,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: AppTextStyle.whiteMontS16SemiBold,),
+      title: Text(title, style: AppTextStyle.whiteMontS16SemiBold),
       centerTitle: true,
-      leading: onPressed != null ?
-      IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new, size: 20,),
-        color: Colors.white,
-        onPressed: onPressed!,
-      ) : null,
+      leading: onPressed != null
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+              color: Colors.white,
+              onPressed: onPressed!,
+            )
+          : null,
       actions: actions,
       backgroundColor: Colors.transparent,
     );

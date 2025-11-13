@@ -1,10 +1,10 @@
-import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/models/entities/movie/movie_entity.dart';
 
 class MoviesResponse {
   final int page;
   final int totalPages;
   final int totalResults;
-  final List<Movie> results;
+  final List<MovieEntity> results;
 
   MoviesResponse(this.page, this.totalPages, this.totalResults, this.results);
 
@@ -14,7 +14,7 @@ class MoviesResponse {
       json['total_pages'] as int,
       json['total_results'] as int,
       (json['results'] as List<dynamic>)
-          .map((item) => Movie.fromJson(item as Map<String, dynamic>))
+          .map((item) => MovieEntity.fromJson(item as Map<String, dynamic>))
           .toList(),
     );
   }

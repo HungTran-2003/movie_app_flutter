@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:movie_app/models/movie.dart';
+import 'package:movie_app/configs/app_configs.dart';
+import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/models/response/error_response.dart';
 import 'package:movie_app/models/response/movies_response.dart';
 
 class MovieService {
-  static const apiKey = '478908aed938fe4f6fb095c7e99043a3';
+  static const apiKey = MovieAPIConfig.apiKey;
+  static const baseUrl = AppConfigs.baseUrl;
 
   int _page = 1;
 
@@ -19,7 +21,7 @@ class MovieService {
 
   Future<Object> fetchPopularMovies() async {
     final url = Uri.parse(
-      'https://api.themoviedb.org/3/movie/popular?api_key=$apiKey&language=en-US&page=$_page',
+      '$baseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$_page',
     );
     try {
       final response = await http.get(url);
@@ -36,15 +38,15 @@ class MovieService {
     }
   }
 
-  Future<Movie> fetchDetailMovie(int movieId) async {
+  Future<MovieEntity> fetchDetailMovie(int movieId) async {
     final url = Uri.parse(
-      'https://api.themoviedb.org/3/movie/$movieId?api_key=$apiKey&language=en-US',
+      '$baseUrl/movie/$movieId?api_key=$apiKey&language=en-US',
     );
     final response = await http.get(url);
     final Map<String, dynamic> jsonData = jsonDecode(response.body);
     log(jsonData.toString());
     if (response.statusCode == 200) {
-      return Movie.fromJson(jsonData);
+      return MovieEntity.fromJson(jsonData);
     } else {
       throw ErrorResponse.fromJson(jsonData);
     }

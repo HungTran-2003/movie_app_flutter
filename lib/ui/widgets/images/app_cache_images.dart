@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/widgets/loading/app_loading_indicator.dart';
@@ -25,20 +24,20 @@ class AppCacheImage extends StatelessWidget {
       width: width,
       height: height ?? 210,
       decoration: BoxDecoration(
-        borderRadius: fit == null ?
-            BorderRadius.circular(borderRadius) :
-            BorderRadius.only(
-              bottomLeft: Radius.circular(borderRadius),
-              bottomRight: Radius.circular(borderRadius),
-            )
+        borderRadius: fit == null
+            ? BorderRadius.circular(borderRadius)
+            : BorderRadius.only(
+                bottomLeft: Radius.circular(borderRadius),
+                bottomRight: Radius.circular(borderRadius),
+              ),
       ),
       child: ClipRRect(
-        borderRadius: fit == null ?
-        BorderRadius.circular(borderRadius) :
-        BorderRadius.only(
-          bottomLeft: Radius.circular(borderRadius),
-          bottomRight: Radius.circular(borderRadius),
-        ),
+        borderRadius: fit == null
+            ? BorderRadius.circular(borderRadius)
+            : BorderRadius.only(
+                bottomLeft: Radius.circular(borderRadius),
+                bottomRight: Radius.circular(borderRadius),
+              ),
         child: CachedNetworkImage(
           imageUrl: url,
           progressIndicatorBuilder: (context, url, downloadProgress) {
@@ -46,7 +45,7 @@ class AppCacheImage extends StatelessWidget {
           },
           errorWidget: (context, url, error) => Icon(Icons.error),
           fit: fit ?? BoxFit.fill,
-        )
+        ),
       ),
     );
   }

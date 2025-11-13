@@ -1,6 +1,6 @@
-import 'package:movie_app/models/Genres.dart';
+import 'package:movie_app/models/entities/movie/genre_entity.dart';
 
-class Movie {
+class MovieEntity {
   int? id;
   String? title;
   String? posterPath;
@@ -9,9 +9,9 @@ class Movie {
   String? overview;
   String? releaseDate;
   int? duration;
-  List<Genres>? genres;
+  List<GenreEntity>? genres;
 
-  Movie({
+  MovieEntity({
     this.id,
     this.title,
     this.posterPath,
@@ -23,10 +23,10 @@ class Movie {
     this.genres,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
+  factory MovieEntity.fromJson(Map<String, dynamic> json) {
     final posterPath = json['poster_path'];
     final backdropPath = json['backdrop_path'];
-    return Movie(
+    return MovieEntity(
       id: json['id'],
       title: json['title'],
       posterPath: 'https://image.tmdb.org/t/p/original${posterPath ?? ""}',
@@ -35,9 +35,9 @@ class Movie {
       overview: json['overview'],
       releaseDate: json['release_date'],
       genres: (json['genres'] as List<dynamic>?)
-          ?.map((e) => Genres.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => GenreEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      duration: json['runtime']
+      duration: json['runtime'],
     );
   }
 }

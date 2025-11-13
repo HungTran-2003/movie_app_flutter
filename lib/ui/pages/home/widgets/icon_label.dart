@@ -35,13 +35,25 @@ class IconLabel extends StatelessWidget {
 
   Widget? _buildLabelWidget() {
     if (color == AppColors.textOrange) {
-      return Text(label, style: AppTextStyle.orangeMontS12SemiBold, overflow: TextOverflow.ellipsis);
+      return Text(
+        label,
+        style: AppTextStyle.orangeMontS12SemiBold,
+        overflow: TextOverflow.ellipsis,
+      );
     }
     if (color == AppColors.textGray) {
-      return Text(label, style: AppTextStyle.grayMontS12Medium, overflow: TextOverflow.ellipsis);
+      return Text(
+        label,
+        style: AppTextStyle.grayMontS12Medium,
+        overflow: TextOverflow.ellipsis,
+      );
     }
     if (color == AppColors.textWhite) {
-      return Text(label, style: AppTextStyle.whitePoppinsS12Regular, overflow: TextOverflow.ellipsis);
+      return Text(
+        label,
+        style: AppTextStyle.whitePoppinsS12Regular,
+        overflow: TextOverflow.ellipsis,
+      );
     }
     return null;
   }
