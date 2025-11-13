@@ -51,10 +51,13 @@ class _StateScreen1 extends State<HomePage> {
       });
       if (e is ErrorResponse) {
         AppDialogs(context: context).showSimpleDialog(
-            title: "Error: ${e.statusCode}", content: e.statusMessage);
+          title: "Error: ${e.statusCode}",
+          content: e.statusMessage,
+        );
       } else {
-        AppDialogs(context: context).showSimpleDialog(
-            title: "Error System", content: e.toString());
+        AppDialogs(
+          context: context,
+        ).showSimpleDialog(title: "Error System", content: e.toString());
       }
     }
   }

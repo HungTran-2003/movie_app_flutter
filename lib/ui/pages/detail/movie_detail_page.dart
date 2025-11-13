@@ -1,11 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/common/app_colors.dart';
+import 'package:movie_app/common/app_dialogs.dart';
 import 'package:movie_app/common/app_dimens.dart';
 import 'package:movie_app/common/app_svgs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
 import 'package:movie_app/models/entities/movie/movie_entity.dart';
+import 'package:movie_app/models/response/error_response.dart';
 import 'package:movie_app/service/movie_service.dart';
 import 'package:movie_app/ui/pages/home/widgets/icon_label.dart';
 import 'package:movie_app/ui/widgets/app_bar/app_bar_widget.dart';
@@ -28,7 +28,9 @@ class _StateScreen1 extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    loadDetailMovie();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadDetailMovie();
+    });
   }
 
   void loadDetailMovie() async {
@@ -41,7 +43,20 @@ class _StateScreen1 extends State<MovieDetailPage> {
         _isLoading = false;
       });
     } catch (e) {
-      log(e.toString());
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+      if (e is ErrorResponse) {
+        AppDialogs(context: context).showSimpleDialog(
+          title: "Error: ${e.statusCode}",
+          content: e.statusMessage,
+        );
+      } else {
+        AppDialogs(
+          context: context,
+        ).showSimpleDialog(title: "Error System", content: e.toString());
+      }
     }
   }
 
