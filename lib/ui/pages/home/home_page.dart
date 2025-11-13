@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 
 class _StateScreen1 extends State<HomePage> {
   final List<MovieEntity> _movies = [];
-  String _error = "";
 
   bool _isLoading = false;
   final ScrollController _scrollController = ScrollController();
@@ -68,17 +67,13 @@ class _StateScreen1 extends State<HomePage> {
   }
 
   Widget _buildBodyPages() {
-    if (_movies.isEmpty && _error == "" && _isLoading == false) {
+    if (_movies.isEmpty && _isLoading == false) {
       return Center(
         child: Text("No Data Yet", style: AppTextStyle.whitePoppinsS18Regular),
       );
     }
-    if (_error != "" && _movies.isEmpty) {
-      return Center(
-        child: Text(_error, style: AppTextStyle.whitePoppinsS18Regular),
-      );
-    }
-    if (_movies.isEmpty && _error == "" && _isLoading) {
+
+    if (_movies.isEmpty && _isLoading) {
       return Center(child: AppCircularProgressIndicator());
     }
     return RefreshIndicator(
