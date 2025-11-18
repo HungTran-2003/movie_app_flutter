@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:movie_app/common/app_dialogs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
@@ -60,7 +61,14 @@ class _StateScreen1 extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: "Movies"),
+      appBar: AppBarWidget(
+        title: "Movies",
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushNamed(context, '/favorite');
+          }, icon: Icon(Icons.favorite, color: Colors.white,))
+        ],
+      ),
       body: _buildBodyPages(),
     );
   }

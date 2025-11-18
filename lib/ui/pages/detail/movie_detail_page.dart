@@ -4,6 +4,7 @@ import 'package:movie_app/common/app_dialogs.dart';
 import 'package:movie_app/common/app_dimens.dart';
 import 'package:movie_app/common/app_svgs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
+import 'package:movie_app/database/app_share_preferences.dart';
 import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/models/response/error_response.dart';
 import 'package:movie_app/service/movie_service.dart';
@@ -22,12 +23,15 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _StateScreen1 extends State<MovieDetailPage> {
+  final _prefs = AppSharePreferences.instance;
   bool _isLoading = true;
   MovieEntity? movie;
+  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
+    _isFavorite = _prefs.contains(widget.movieId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loadDetailMovie();
     });
@@ -72,12 +76,38 @@ class _StateScreen1 extends State<MovieDetailPage> {
         },
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.bookmark, size: 24, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                _isFavorite = !_isFavorite;
+                if (_isFavorite) {
+                  _prefs.addId(widget.movieId);
+                } else {
+                  _prefs.removeId(widget.movieId);
+                }
+              });
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content:
+                    Text(
+                      _isFavorite
+                          ? "Movie added to favorites"
+                          : "Movie removed from favorites",
+                    ),
+                    backgroundColor: _isFavorite ? Colors.green : Colors.red,
+                  ),
+                );
+            },
+            icon: Icon(
+                _isFavorite ? Icons.bookmark : Icons.bookmark_outline_rounded,
+                size: 24, color:
+            Colors.white),
           ),
         ],
       ),
       body: _buildBodyPages(movie, maxWidth),
+
     );
   }
 
@@ -114,6 +144,8 @@ class _StateScreen1 extends State<MovieDetailPage> {
                   softWrap: true,
                 ),
               ),
+
+
             ],
           ),
         );
