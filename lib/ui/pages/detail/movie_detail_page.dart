@@ -4,14 +4,15 @@ import 'package:movie_app/common/app_dialogs.dart';
 import 'package:movie_app/common/app_dimens.dart';
 import 'package:movie_app/common/app_svgs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
-import 'package:movie_app/database/app_share_preferences.dart';
 import 'package:movie_app/models/entities/movie/movie_entity.dart';
 import 'package:movie_app/models/response/error_response.dart';
+import 'package:movie_app/provider/movies_bookmark.dart';
 import 'package:movie_app/service/movie_service.dart';
 import 'package:movie_app/ui/pages/home/widgets/icon_label.dart';
 import 'package:movie_app/ui/widgets/app_bar/app_bar_widget.dart';
 import 'package:movie_app/ui/widgets/images/app_cache_images.dart';
 import 'package:movie_app/ui/widgets/loading/app_loading_indicator.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.movieId});
@@ -23,21 +24,18 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _StateScreen1 extends State<MovieDetailPage> {
-  final _prefs = AppSharePreferences.instance;
   bool _isLoading = true;
   MovieEntity? movie;
-  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
-    _isFavorite = _prefs.contains(widget.movieId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadDetailMovie();
+      _loadDetailMovie();
     });
   }
 
-  void loadDetailMovie() async {
+  void _loadDetailMovie() async {
     try {
       final fetchMovie = await MovieService.instance.fetchDetailMovie(
         widget.movieId,
@@ -77,37 +75,30 @@ class _StateScreen1 extends State<MovieDetailPage> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                _isFavorite = !_isFavorite;
-                if (_isFavorite) {
-                  _prefs.addId(widget.movieId);
-                } else {
-                  _prefs.removeId(widget.movieId);
-                }
-              });
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content:
-                    Text(
-                      _isFavorite
-                          ? "Movie added to favorites"
-                          : "Movie removed from favorites",
-                    ),
-                    backgroundColor: _isFavorite ? Colors.green : Colors.red,
-                  ),
+              final provider = context.read<BookMarkProvider>();
+              if (provider.isBookmarked(widget.movieId)) {
+                provider.removeBookmark(widget.movieId);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Bookmark removed")),
                 );
+              } else {
+                provider.addBookmark(movie!);
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text("Bookmark added")));
+              }
             },
             icon: Icon(
-                _isFavorite ? Icons.bookmark : Icons.bookmark_outline_rounded,
-                size: 24, color:
-            Colors.white),
+              context.watch<BookMarkProvider>().isBookmarked(widget.movieId)
+                  ? Icons.bookmark
+                  : Icons.bookmark_border,
+              size: 24,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
       body: _buildBodyPages(movie, maxWidth),
-
     );
   }
 
@@ -144,8 +135,6 @@ class _StateScreen1 extends State<MovieDetailPage> {
                   softWrap: true,
                 ),
               ),
-
-
             ],
           ),
         );

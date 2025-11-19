@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSharePreferences {
-
   AppSharePreferences._internal();
   static final AppSharePreferences _instance = AppSharePreferences._internal();
   static AppSharePreferences get instance => _instance;
@@ -15,7 +14,9 @@ class AppSharePreferences {
 
   SharedPreferences get prefs {
     if (_prefs == null) {
-      throw Exception('IdStorage chưa được init. Gọi IdStorage.instance.init() trong main()');
+      throw Exception(
+        'IdStorage chưa được init. Gọi IdStorage.instance.init() trong main()',
+      );
     }
     return _prefs!;
   }
@@ -26,29 +27,6 @@ class AppSharePreferences {
   }
 
   Future<void> saveIds(List<int> ids) async {
-    await prefs.setStringList(
-      _key,
-      ids.map((e) => e.toString()).toList(),
-    );
-  }
-
-  Future<void> addId(int id) async {
-    final ids = getIds();
-
-    if (!ids.contains(id)) {
-      ids.add(id);
-      await saveIds(ids);
-    }
-  }
-
-  Future<void> removeId(int id) async {
-    final ids = getIds();
-    ids.remove(id);
-    await saveIds(ids);
-  }
-
-  bool contains(int id) {
-    final ids = getIds();
-    return ids.contains(id);
+    await prefs.setStringList(_key, ids.map((e) => e.toString()).toList());
   }
 }

@@ -18,7 +18,6 @@ class MovieService {
   MovieService._internal();
   static MovieService get instance => _instance;
 
-
   Future<MoviesResponse> fetchPopularMovies() async {
     final url = Uri.parse(
       '$baseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$_page',
@@ -64,8 +63,6 @@ class MovieService {
         }
       }),
     )).whereType<MovieEntity>().toList();
-
-
     return movies;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/common/app_dialogs.dart';
 import 'package:movie_app/common/app_text_styles.dart';
@@ -50,10 +49,13 @@ class _StateScreen1 extends State<HomePage> {
       });
       if (e is ErrorResponse) {
         AppDialogs(context: context).showSimpleDialog(
-            title: "Error: ${e.statusCode}", content: e.statusMessage);
+          title: "Error: ${e.statusCode}",
+          content: e.statusMessage,
+        );
       } else {
-        AppDialogs(context: context).showSimpleDialog(
-            title: "Error System", content: e.toString());
+        AppDialogs(
+          context: context,
+        ).showSimpleDialog(title: "Error System", content: e.toString());
       }
     }
   }
@@ -64,9 +66,12 @@ class _StateScreen1 extends State<HomePage> {
       appBar: AppBarWidget(
         title: "Movies",
         actions: [
-          IconButton(onPressed: (){
-            Navigator.pushNamed(context, '/favorite');
-          }, icon: Icon(Icons.favorite, color: Colors.white,))
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/bookmark');
+            },
+            icon: Icon(Icons.favorite, color: Colors.white),
+          ),
         ],
       ),
       body: _buildBodyPages(),

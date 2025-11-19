@@ -14,8 +14,4 @@ class AppColors {
 
   //Background
   static final bgCard = Color.fromRGBO(37, 40, 45, 32);
-
-
-
-
 }
